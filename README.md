@@ -15,6 +15,10 @@ APIClient 설치용 파일입니다.
      +- 한글문서도 된 APIClient 설치 문서 및 절차 등에 대한 문서가 있습니다.
         회사별로 APIClient의 Config 폴더 하부의 api-dm-tool.yml 파일에 설정할 system-id를 찾는 excel-macro 파일이 포함되어 있습니다.   
     
-3. jvm.zip      : 
+3. jvm.zip      : 64 bit Windows를 사용하는 서버/PC에서 사용합니다. 
+   java virtual machine 입니다.  APIClient 설치하는 서버(PC)에 java install 없이, jvm 다운로드 하여 압축해제하여 java를 실행할 수 있습니다.
+   openJava 1.8 버전입니다.
+
+4. jvm32.zip    : 윈도우 XP와 같이 32 bit Windows를 사용하는 서버/PC에서 사용합니다.
    java virtual machine 입니다.  APIClient 설치하는 서버(PC)에 java install 없이, jvm 다운로드 하여 압축해제하여 java를 실행할 수 있습니다.
    openJava 1.8 버전입니다.
