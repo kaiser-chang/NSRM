@@ -1,0 +1,227 @@
+<configuration>
+
+
+    <!-- region [miscellaneous] -->
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+    <!-- endregion -->
+
+
+    <!-- region [properties] -->
+    <springProperty name="LOG_PATH" source="logging.file.path" />
+    <springProperty name="APP_NAME" source="spring.application.name" />
+    <springProperty name="PROFILE" source="spring.profiles.active" />
+    <springProperty name="SERVER_PORT" source="server.port" />
+    <springProperty name="LOG_PATTERN" source="logging.pattern"/>
+    <!-- endregion -->
+
+
+    <!-- region [Appenders] -->
+    <!-- profile default or local -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+    
+    <appender name="FILE_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    	<file>${LOG_PATH}/${APP_NAME}_${PROFILE}_${SERVER_PORT}.log</file>
+    	<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${LOG_PATH}/${APP_NAME}_${PROFILE}_${SERVER_PORT}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize> <!-- each log file size cannot exceed 100 mega bytes  -->
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <totalSizeCap>500MB</totalSizeCap> <!-- Total size 500MB, if occur overflow, delete early log -->
+            <maxHistory>10</maxHistory> <!-- only have 10 days of history -->
+        </rollingPolicy>
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+    
+    <appender name="API_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    	<file>${LOG_PATH}/${APP_NAME}_api_${PROFILE}_${SERVER_PORT}.log</file>
+    	<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${LOG_PATH}/${APP_NAME}_api_${PROFILE}_${SERVER_PORT}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize> <!-- each log file size cannot exceed 100 mega bytes  -->
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <totalSizeCap>500MB</totalSizeCap> <!-- Total size 500MB, if occur overflow, delete early log -->
+            <maxHistory>10</maxHistory> <!-- only have 10 days of history -->
+        </rollingPolicy>
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+    
+    <appender name="REPORT_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    	<file>${LOG_PATH}/${APP_NAME}_report_${PROFILE}_${SERVER_PORT}.log</file>
+    	<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${LOG_PATH}/${APP_NAME}_report_${PROFILE}_${SERVER_PORT}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize> <!-- each log file size cannot exceed 100 mega bytes  -->
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <totalSizeCap>500MB</totalSizeCap> <!-- Total size 500MB, if occur overflow, delete early log -->
+            <maxHistory>5</maxHistory> <!-- only have 10 days of history -->
+        </rollingPolicy>
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+    
+    <appender name="DEBUG_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    	<file>${LOG_PATH}/${APP_NAME}_debug_${PROFILE}_${SERVER_PORT}.log</file>
+    	<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${LOG_PATH}/${APP_NAME}_debug_${PROFILE}_${SERVER_PORT}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize> <!-- each log file size cannot exceed 100 mega bytes  -->
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <totalSizeCap>200MB</totalSizeCap> <!-- Total size 200MB, if occur overflow, delete ealy log -->
+            <maxHistory>10</maxHistory> <!-- only have 10 days of history -->
+        </rollingPolicy>
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+    <!-- endregion -->
+
+
+    <!-- region [loggers] -->
+    <logger name="sonegy.slf4j.sample" level="WARN"/>
+    <logger name="liquibase" level="WARN" />
+    <logger name="jdbc" level="OFF" />
+    <logger name="jdbc.sqltiming" level="WARN" />
+    <logger name="jdbc.resultsettable" level="WARN" />
+    <logger name="org.springframework.context" level="WARN"/>
+    <logger name="org.apache.logging.log4j" level="INFO"/>
+    <!-- endregion -->
+
+
+    <!-- region [root] -->
+
+	<springProfile name="local">
+		<root level="INFO">
+	        <appender-ref ref="STDOUT" />
+	    </root>
+	    <logger name="net.qlynx.lynxlib" additivity="false" level="OFF"><!-- APPLICATION LOG 설정 -->
+	    	<appender-ref ref="STDOUT" />
+	    	<appender-ref ref="DEBUG_LOG" />	    	
+	    </logger>	    
+	    <logger name="net.qlynx.lynxlib.ui.configuration.log.impl.RestApiLogService" additivity="false" level="DEBUG"><!-- API LOG 설정 -->
+	    	<appender-ref ref="STDOUT" />
+	    </logger>
+	    <logger name="net.qlynx.lynxlib.ui.rest.client.RestApiClientCaller" additivity="false" level="DEBUG"><!-- API LOG 설정 -->
+	    	<appender-ref ref="STDOUT" />
+		</logger>
+	    <logger name="net.qlynx.lynxlib.batch.job.service.BeanBatchJobExecutor" additivity="false" level="DEBUG"><!-- API LOG 설정 -->
+	    	<appender-ref ref="STDOUT" />
+	    </logger>
+	    <logger name="net.qlynx.lynxlib.apidmtool.application.irp.impl.UsageStatusService" additivity="false" level="DEBUG"><!-- IRP UsageStatus LOG 설정 -->
+	    	<appender-ref ref="STDOUT" />
+	    </logger>
+	    <logger name="net.qlynx.lynxlib.apidmtool.ui.configuration.impl.UiConfigurationClientService" additivity="false" level="DEBUG"><!-- UiConfigurationClient LOG 설정 -->
+	    	<appender-ref ref="STDOUT" />
+		</logger>
+	    <logger name="net.qlynx.lynxlib.apidmtool.application.nsrm.business.impl.NsrmClientService" additivity="false" level="DEBUG"><!-- NSRM LOG 설정 -->
+	    	<appender-ref ref="STDOUT" />
+	    </logger>
+	    <logger name="net.qlynx.lynxlib.apidmtool.application.nsrm.common.impl.ReportLogService" additivity="false" level="DEBUG"><!-- Application Common LOG 설정 -->
+	    	<appender-ref ref="STDOUT" />
+	    </logger>
+	    <logger name="net.qlynx.lynxlib.apidmtool.IApplicationCommonService" additivity="false" level="DEBUG"><!-- Application Common LOG 설정 -->
+	    	<appender-ref ref="STDOUT" />
+	    </logger>
+	</springProfile>
+    
+    <springProfile name="development">
+		<root level="INFO">
+	        <appender-ref ref="STDOUT" />
+	    </root>
+	    <logger name="net.qlynx.lynxlib" additivity="false" level="OFF"><!-- APPLICATION LOG 설정 -->
+	    	<appender-ref ref="STDOUT" />
+	    	<appender-ref ref="DEBUG_LOG" />	    	
+	    </logger>
+	    <logger name="net.qlynx.lynxlib.ui.configuration.log.impl.RestApiLogService" additivity="false" level="DEBUG"><!-- API LOG 설정 -->
+	    	<appender-ref ref="STDOUT" />
+	    	<appender-ref ref="API_LOG" />
+	    </logger>
+	    <logger name="net.qlynx.lynxlib.ui.rest.client.RestApiClientCaller" additivity="false" level="DEBUG"><!-- API LOG 설정 -->
+	    	<appender-ref ref="STDOUT" />
+	    	<appender-ref ref="API_LOG" />
+	    </logger>
+	    <logger name="net.qlynx.lynxlib.batch.job.service.BeanBatchJobExecutor" additivity="false" level="DEBUG"><!-- API LOG 설정 -->
+	    	<appender-ref ref="STDOUT" />
+	    	<appender-ref ref="FILE_LOG" />
+	    </logger>
+	    <logger name="net.qlynx.lynxlib.apidmtool.application.irp.impl.UsageStatusService" additivity="false" level="DEBUG"><!-- IRP UsageStatus LOG 설정 -->
+	    	<appender-ref ref="STDOUT" />
+	    	<appender-ref ref="FILE_LOG" />
+	    </logger>
+	    <logger name="net.qlynx.lynxlib.apidmtool.ui.configuration.impl.UiConfigurationClientService" additivity="false" level="DEBUG"><!-- UiConfigurationClient LOG 설정 -->
+	    	<appender-ref ref="STDOUT" />
+	    	<appender-ref ref="FILE_LOG" />
+	    </logger>
+	    <logger name="net.qlynx.lynxlib.apidmtool.application.nsrm.business.impl.NsrmClientService" additivity="false" level="DEBUG"><!-- NSRM LOG 설정 -->
+	    	<appender-ref ref="STDOUT" />
+	    	<appender-ref ref="FILE_LOG" />
+	    </logger>
+	    <logger name="net.qlynx.lynxlib.apidmtool.application.nsrm.common.impl.ReportLogService" additivity="false" level="DEBUG"><!-- Application Common LOG 설정 -->
+	    	<appender-ref ref="STDOUT" />
+	    	<appender-ref ref="REPORT_LOG" />
+	    </logger>
+	    <logger name="net.qlynx.lynxlib.apidmtool.IApplicationCommonService" additivity="false" level="DEBUG"><!-- Application Common LOG 설정 -->
+	    	<appender-ref ref="STDOUT" />
+	    	<appender-ref ref="FILE_LOG" />
+	    </logger>
+	</springProfile>
+	
+	<springProfile name="production">
+		<root level="INFO">
+	        <appender-ref ref="STDOUT" />
+	    </root>
+	    <logger name="net.qlynx.lynxlib" additivity="false" level="OFF"><!-- APPLICATION LOG 설정 -->
+	    	<appender-ref ref="STDOUT" />
+	    	<appender-ref ref="DEBUG_LOG" />	    	
+	    </logger>
+	    <logger name="net.qlynx.lynxlib.ui.configuration.log.impl.RestApiLogService" additivity="false" level="DEBUG"><!-- API LOG 설정 -->
+	    	<appender-ref ref="STDOUT" />
+	    	<appender-ref ref="API_LOG" />
+	    </logger>
+	    <logger name="net.qlynx.lynxlib.ui.rest.client.RestApiClientCaller" additivity="false" level="DEBUG"><!-- API LOG 설정 -->
+	    	<appender-ref ref="STDOUT" />
+	    	<appender-ref ref="API_LOG" />
+	    </logger>
+	    <logger name="net.qlynx.lynxlib.batch.job.service.BeanBatchJobExecutor" additivity="false" level="DEBUG"><!-- API LOG 설정 -->
+	    	<appender-ref ref="STDOUT" />
+	    	<appender-ref ref="FILE_LOG" />
+	    </logger>
+	    <logger name="net.qlynx.lynxlib.apidmtool.application.irp.impl.UsageStatusService" additivity="false" level="DEBUG"><!-- IRP UsageStatus LOG 설정 -->
+	    	<appender-ref ref="STDOUT" />
+	    	<appender-ref ref="FILE_LOG" />
+	    </logger>
+	    <logger name="net.qlynx.lynxlib.apidmtool.ui.configuration.impl.UiConfigurationClientService" additivity="false" level="DEBUG"><!-- UiConfigurationClient LOG 설정 -->
+	    	<appender-ref ref="STDOUT" />
+	    	<appender-ref ref="FILE_LOG" />
+	    </logger>
+	    <logger name="net.qlynx.lynxlib.apidmtool.application.nsrm.business.impl.NsrmClientService" additivity="false" level="DEBUG"><!-- NSRM LOG 설정 -->
+	    	<appender-ref ref="STDOUT" />
+	    	<appender-ref ref="FILE_LOG" />
+	    </logger>
+	    <logger name="net.qlynx.lynxlib.apidmtool.application.nsrm.common.impl.ReportLogService" additivity="false" level="DEBUG"><!-- Application Common LOG 설정 -->
+	    	<appender-ref ref="STDOUT" />
+	    	<appender-ref ref="REPORT_LOG" />
+	    </logger>
+	    <logger name="net.qlynx.lynxlib.apidmtool.IApplicationCommonService" additivity="false" level="DEBUG"><!-- Application Common LOG 설정 -->
+	    	<appender-ref ref="STDOUT" />
+	    	<appender-ref ref="FILE_LOG" />
+	    </logger>
+	</springProfile>
+	
+    <!-- endregion -->
+
+
+</configuration>

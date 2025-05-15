@@ -1,0 +1,10 @@
+lynxlib:
+    #datasource: #개발 DB가 별도로 있는 경우 설정. Configure if there is a development DB
+        #- datasource-name: system-datasource #수정불가 Uncorrectable
+        #  database-type: sqlserver #oracle sqlserver jtds db2 postgresql mysql mariadb tibero sqlite
+        #  database-name: database-name
+        #  server: 127.0.0.1
+        #  port: 1234
+        #  username: username
+        #  password: password        
+        #jdbc-url-options: ;encrypt=true;trustServerCertificate=true #jdbc-url에 추가로 설정할 옵션이 있는경우 설정(예제는 sqlserver TLS 인증서 무시를 위한 설정)
