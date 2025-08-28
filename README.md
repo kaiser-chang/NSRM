@@ -24,11 +24,13 @@ APIClient 설치용 파일입니다.
    Copy Path : Extract files into Installed folder(APIClient)
 
 ** Installed for APIClient
-   ex) C:\APIClient - bin
-                    - Config
-                    - Logs
-                    - JVM
-   ex) C:\NSRM_EDI - bin
-                   - Config
-                   - Logs
-                   - JVM
+   ex) C:\APIClient\
+          \bin
+          \Config
+          \Logs
+          \JVM
+   ex) C:\NSRM_EDI\
+          \bin
+          \Config
+          \Logs
+          \JVM
