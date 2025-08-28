@@ -28,9 +28,10 @@ APIClient 설치용 파일입니다.
           \bin
           \Config
           \Logs
-          \JVM
+          \jvm
    2. ex) C:\NSRM_EDI\
           \bin
           \Config
           \Logs
-          \JVM
+          \jvm
+      
