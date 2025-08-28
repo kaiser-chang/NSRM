@@ -15,7 +15,7 @@ APIClient 설치용 파일입니다.
    api-dm-tool.yml 파일을 메모장(notepad) 등으로 편집하시면 됩니다.
    
 3. lynxlib-api-dm-tool-application.jar : 최종 APIClient의 패키지 파일입니다.(api-dm-tool.zip을 압축해제한 경우 불필요)
-   api-dm-tool 밑의 bin 폴더에 복사하면 됩니다.(1.2.9 이전버전을 사용하는 경우에 한하여, 복사하면 됩니다.)
+   api-dm-tool 밑의 bin 폴더에 복사하면 됩니다.(1.5.1 이전버전을 사용하는 경우에 한하여, 복사하면 됩니다.)
    
 4. jvm.zip      : 64 bit Windows를 사용하는 서버/PC에서 사용합니다. 
    java virtual machine 입니다.  APIClient 설치하는 서버(PC)에 java install 없이, jvm 다운로드 하여 압축해제하여 java를 실행할 수 있습니다.
